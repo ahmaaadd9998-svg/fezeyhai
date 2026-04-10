@@ -111,7 +111,7 @@ class GeminiService:
             print(f"Upload Error: {e}")
             raise
 
-    def ask(self, question, history=None):
+    def ask(self, question, history=None, mode='chat'):
         if history is None: history = []
         
         file_map = self.get_file_map()
@@ -137,34 +137,56 @@ class GeminiService:
         current_parts = content_parts + [types.Part.from_text(text=question)]
         messages.append(types.Content(role="user", parts=current_parts))
 
+        # Dynamic System Instruction based on mode
+        system_instruction_text = (
+            "أنت مساعد فيزياء خبير يعتمد على المنهج المعتمد. "
+        )
+
+        if mode == 'chat':
+            system_instruction_text += (
+                "الوضع الحالي هو 'مناقشة ودردشة'. "
+                "أجب على أسئلة المستخدم بأسلوب علمي مباشر وشيق. "
+                "ممنوع تماماً ذكر أي شيء يتعلق بإعداد الدروس أو الخطط أو التمهيد أو الأهداف السلوكية إلا إذا طلب المستخدم ذلك صراحة. "
+                "كن مفيداً ومختصراً في الشرح العلمي."
+            )
+        elif mode == 'lesson_plan':
+            system_instruction_text += (
+                "الوضع الحالي هو 'إعداد خطة درس تفاعلية'. "
+                "التزم بالهيكل التالي بدقة: أهداف سلوكية، تمهيد (5 دق)، سير الدرس (أنشطة: استكشاف، بناء مفهوم، تطبيق)، وتقييم ختامي. "
+                "استخدم لغة تربوية رصينة وتوزيع زمن دقيق."
+            )
+        elif mode == 'questions':
+            system_instruction_text += (
+                "الوضع الحالي هو 'توليد أسئلة'. "
+                "لا تذكر أي تفاصيل عن خطة الدرس أو التمهيد. "
+                "نفذ الطلب (صح وخطأ، اختيار، مقالي، إلخ) بالعدد والنوع المطلوب بدقة. "
+                "وضح مستويات بلوم (Bloom's Taxonomy) لكل سؤال. ابدأ مباشرة بذكر الأسئلة."
+            )
+        elif mode == 'remedial':
+            system_instruction_text += (
+                "الوضع الحالي هو 'خطة علاجية أو إثرائية'. "
+                "ركز على استراتيجيات معالجة الضعف أو تعزيز الموهبة للموضوع المذكور بناءً على المنهج."
+            )
+
+        system_instruction_text += (
+            "\n\nتعليمات عامة لجميع المهام:\n"
+            "- اعتمد فقط على المعلومات العلمية من الكتب المرفقة.\n"
+            "- استخدم لغة عربية سليمة وواضحة.\n"
+            "- لا تخرج عن سياق الفيزياء والمنهج التعليمي."
+        )
+
         models_to_try = ["gemini-2.5-flash", "gemini-flash-latest"]
         last_err = ""
         
         for model_name in models_to_try:
             try:
-                print(f"DEBUG: Calling {model_name}...")
+                print(f"DEBUG: Calling {model_name} in mode: {mode}...")
                 response = self.client.models.generate_content(
                     model=model_name,
                     contents=messages,
-                config=types.GenerateContentConfig(
-                    system_instruction= (
-                        "أنت مساعد معلم فيزياء محترف وخبير تربوي. مهمتك هي تقديم الدعم للمعلم بناءً على نوع الطلب المحدد:\n\n"
-                        "1. إذا كان الطلب إعداد 'خطة درس تفاعلية':\n"
-                        "   - التزم بالهيكل: أهداف سلوكية، تمهيد (5 دق)، سير الدرس (أنشطة: استكشاف، بناء مفهوم، تطبيق)، وتقييم ختامي.\n"
-                        "   - استخدم لغة تربوية رصينة.\n\n"
-                        "2. إذا كان الطلب 'توليد أسئلة':\n"
-                        "   - لا تذكر أي تفاصيل عن خطة الدرس أو التمهيد.\n"
-                        "   - نفذ الطلب (صح وخطأ، اختيار، مقالي، إلخ) بالعدد والنوع المطلوب بدقة.\n"
-                        "   - وضح مستويات بلوم (Bloom's Taxonomy) لكل سؤال.\n"
-                        "   - ابدأ مباشرة بذكر الأسئلة.\n\n"
-                        "3. إذا كان الطلب 'خطة علاجية أو إثرائية':\n"
-                        "   - ركز على استراتيجيات معالجة الضعف أو تعزيز الموهبة لموضوع معين.\n\n"
-                        "تعليمات عامة لجميع المهام:\n"
-                        "- اعتمد فقط على المعلومات العلمية من الكتب المرفقة.\n"
-                        "- استخدم لغة عربية سليمة وواضحة.\n"
-                        "- لا تخرج عن سياق الفيزياء والمنهج التعليمي."
+                    config=types.GenerateContentConfig(
+                        system_instruction=system_instruction_text
                     )
-                )
                 )
                 return response.text
             except Exception as e:

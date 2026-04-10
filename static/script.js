@@ -169,7 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ 
                     question: message, 
                     session_id: currentSessionId,
-                    history: chatHistory.slice(0, -1) 
+                    history: chatHistory.slice(0, -1),
+                    mode: currentTask
                 })
             });
 

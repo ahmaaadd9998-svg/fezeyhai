@@ -48,7 +48,8 @@ def chat():
         return jsonify({"error": "No question provided"}), 400
         
     try:
-        answer = ask_question(question, history)
+        mode = data.get('mode', 'chat')
+        answer = ask_question(question, history, mode)
         return jsonify({"answer": answer})
     except Exception as e:
         print(f"Error in chat endpoint: {e}")

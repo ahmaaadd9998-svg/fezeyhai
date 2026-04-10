@@ -684,40 +684,43 @@ button#send-btn:disabled {
         cursor: pointer;
     }
 
-    .chat-container {
-        width: 100%;
-        height: 100vh;
+    .chat-header {
+        padding: 10px 15px;
     }
 
     .header-titles h1 {
         font-size: 1.1rem;
     }
 
-    .task-configuration {
-        padding: 10px;
-        gap: 10px;
+    .subtitle {
+        display: none;
     }
 
-    .task-tabs {
+    .task-configuration {
+        padding: 12px 10px;
         gap: 8px;
     }
 
+    .instruction-text {
+        font-size: 0.9rem;
+    }
+
+    .task-tabs {
+        gap: 5px;
+    }
+
     .task-tab {
-        padding: 5px 10px;
-        font-size: 0.85rem;
+        padding: 4px 8px;
+        font-size: 0.8rem;
     }
 
     .control-panel {
-        flex-direction: column;
-        gap: 15px;
+        gap: 10px;
+        margin-top: 5px;
     }
 
-    .primary-btn {
-        width: 100%;
-    }
-
-    .message {
-        max-width: 90%;
+    .chat-container {
+        height: 100vh;
     }
 }
 
