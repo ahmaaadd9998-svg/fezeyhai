@@ -608,6 +608,24 @@ button#send-btn:disabled {
 }
 
 @media (max-width: 768px) {
+    .app-layout::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(4px);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Target direct class instead of :has for better compatibility */
+    .app-layout.sidebar-open::before {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
     .app-layout {
         padding: 0;
         height: 100vh;

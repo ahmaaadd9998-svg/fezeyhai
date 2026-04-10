@@ -228,6 +228,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (toggleSidebarBtn) {
         toggleSidebarBtn.addEventListener('click', () => {
             sidebar.classList.toggle('closed');
+            const appLayout = document.querySelector('.app-layout');
+            if (appLayout) {
+                appLayout.classList.toggle('sidebar-open');
+            }
+        });
+    }
+
+    // Close sidebar when clicking backdrop (on mobile)
+    const appLayout = document.querySelector('.app-layout');
+    if (appLayout) {
+        appLayout.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && e.target === appLayout && !sidebar.classList.contains('closed')) {
+                sidebar.classList.add('closed');
+                appLayout.classList.remove('sidebar-open');
+            }
         });
     }
 
