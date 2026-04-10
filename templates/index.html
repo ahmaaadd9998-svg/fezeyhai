@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>المساعد الذكي في الفيزياء</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=22">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -51,15 +51,16 @@
         </header>
 
         <div class="task-configuration">
-            <p class="instruction-text">اختر المهمة التي تود إنجازها بناء على المنهج المعتمد</p>
+            <p class="instruction-text" id="task-instruction">اختر المهمة التي تود إنجازها بناء على المنهج المعتمد</p>
             
             <div class="task-tabs">
-                <button class="task-tab" data-task="remedial">خطط علاجية وإثرائية</button>
+                <button class="task-tab active" data-task="chat">مناقشة ودردشة</button>
+                <button class="task-tab" data-task="lesson_plan">إعداد خطة درس</button>
                 <button class="task-tab" data-task="questions">توليد أسئلة</button>
-                <button class="task-tab active" data-task="lesson_plan">إعداد خطة درس</button>
+                <button class="task-tab" data-task="remedial">خطط علاجية وإثرائية</button>
             </div>
 
-            <div class="control-panel">
+            <div class="control-panel" id="task-control-panel" style="display: none;">
                 <div class="slider-group">
                     <div class="slider-header">
                         <label>مدة الحصة (بالدقائق):</label>
@@ -74,7 +75,7 @@
         <div class="chat-messages" id="chat-messages">
             <div class="message assistant">
                 <div class="message-bubble">
-                    مرحباً! أنا المساعد الذكي في الفيزياء. يمكنني الإجابة على استفساراتك بناءً على المستندات المرفقة وتلخيص القوانين. تفضل، كيف يمكنني مساعدتك اليوم؟
+                    مرحباً! أنا المساعد الذكي في الفيزياء. تفضل، كيف يمكنني مساعدتك اليوم؟
                 </div>
             </div>
         </div>
@@ -96,6 +97,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}?v=20"></script>
+    <script src="{{ url_for('static', filename='script.js') }}?v=22"></script></script>
 </body>
 </html>

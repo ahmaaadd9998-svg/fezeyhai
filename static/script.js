@@ -46,7 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const durationSlider = document.getElementById('duration-slider');
     const durationValue = document.getElementById('duration-value');
     const generateBtn = document.getElementById('generate-btn');
-    let currentTask = 'lesson_plan';
+    const controlPanel = document.getElementById('task-control-panel');
+    const taskInstruction = document.getElementById('task-instruction');
+    let currentTask = 'chat';
 
     // Handle Task Selection
     tasks.forEach(tab => {
@@ -55,13 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
             tab.classList.add('active');
             currentTask = tab.dataset.task;
             
-            // Update UI text based on task
-            if (currentTask === 'lesson_plan') {
-                generateBtn.textContent = 'توليد خطة الدرس';
-            } else if (currentTask === 'questions') {
-                generateBtn.textContent = 'توليد الأسئلة';
+            // Toggle control panel visibility
+            if (currentTask === 'chat' || currentTask === 'questions' || currentTask === 'remedial') {
+                controlPanel.style.display = 'none';
+                if (currentTask === 'chat') {
+                    taskInstruction.textContent = 'اطرح أي سؤال حول المنهج للمناقشة والدردشة العامة';
+                } else if (currentTask === 'questions') {
+                    taskInstruction.textContent = 'اكتب موضوعاً لتوليد أسئلة احترافية حوله من المنهج';
+                } else {
+                    taskInstruction.textContent = 'اكتب موضوعاً لإعداد خطة علاجية وإثرائية شاملة';
+                }
             } else {
-                generateBtn.textContent = 'توليد الخطة';
+                controlPanel.style.display = 'flex';
+                taskInstruction.textContent = 'اختر المهمة التي تود إنجازها بناء على المنهج المعتمد';
+                generateBtn.textContent = 'توليد خطة الدرس';
             }
         });
     });
@@ -98,20 +107,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 specialPrompt = `بناءً على المنهج المرفق، نفذ الطلب التالي بخصوص توليد الأسئلة: (${topic}). 
                 التزم تماماً بنوع الأسئلة والعدد الذي طلبته، وإذا لم أحدد نوعاً فقم بتوليد تنوع احترافي (موضوعي ومقالي). 
                 وضّح مستويات بلوم (Bloom's Taxonomy) لكل سؤال لتسهيل القياس التربوي.`;
-            } else {
+            } else if (currentTask === 'remedial') {
                 specialPrompt = `قم بإعداد خطة علاجية وإثرائية شاملة لموضوع: ${topic} بناءً على المنهج.`;
             }
 
-            sendMessage(specialPrompt);
-            userInput.value = '';
-            userInput.style.height = 'auto';
+            if (specialPrompt) {
+                sendMessage(specialPrompt);
+                userInput.value = '';
+                userInput.style.height = 'auto';
+            }
         });
     }
 
     async function sendMessage(overrideText = null) {
         // Handle cases where overrideText might be an Event object
-        const message = (typeof overrideText === 'string') ? overrideText : userInput.value.trim();
+        let message = (typeof overrideText === 'string') ? overrideText : userInput.value.trim();
         if (!message) return;
+
+        // Automatically apply task-specific formatting if it's a direct user input (not from override)
+        if (!overrideText) {
+            if (currentTask === 'questions') {
+                message = `بناءً على المنهج المرفق، نفذ الطلب التالي بخصوص توليد الأسئلة: (${message}). 
+                التزم تماماً بنوع الأسئلة والعدد الذي طلبته، وإذا لم أحدد نوعاً فقم بتوليد تنوع احترافي (موضوعي ومقالي). 
+                وضّح مستويات بلوم (Bloom's Taxonomy) لكل سؤال لتسهيل القياس التربوي.`;
+            } else if (currentTask === 'remedial') {
+                message = `قم بإعداد خطة علاجية وإثرائية شاملة لموضوع: ${message} بناءً على المنهج.`;
+            } else if (currentTask === 'lesson_plan') {
+                const duration = durationSlider.value;
+                message = `قم بإعداد خطة درس تفاعلية احترافية لموضوع: ${message}. 
+                مدة الحصة: ${duration} دقيقة.
+                يجب أن تتضمن الخطة الأقسام التالية مع توزيع الوقت بدقة:
+                I. الأهداف (Objectives): صياغة أهداف سلوكية واضحة.
+                II. التمهيد (Introduction/Warm-up): مدته 5 دقائق، مع استراتيجية وإجراءات.
+                III. سير الدرس (Lesson Flow): للمدة المتبقية، مقسماً لأنشطة (استكشاف، بناء مفهوم، تطبيق) مع استراتيجية ومفردات مستهدفة لكل نشاط.
+                IV. التقييم الختامي (Concluding Assessment): لمدة 5 دقائق، مع استراتيجية Exit Ticket.
+                استخدم لغة عربية رصينة وأسلوباً تربوياً حديثاً.`;
+            }
+        }
 
         // Add user message to UI
         appendMessage('user', message);

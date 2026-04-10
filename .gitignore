@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+venv/
+.verdent/
+ocr_cache/
+gemini_state.json
+openai_state.json
+reset_output*.txt
+test_output.txt
+test_final_output.txt
