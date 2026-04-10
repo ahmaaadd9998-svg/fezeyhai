@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: physics-rag-assistant
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: CLOUD_MODE
+        value: "true"
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false # User will provide this in Render dashboard
+      - key: APP_PASSCODE
+        sync: false # User will provide this for security

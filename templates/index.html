@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المساعد الذكي في الفيزياء</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>المحادثات السابقة</h2>
+                <button id="new-chat-btn" class="new-chat-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    محادثة جديدة
+                </button>
+            </div>
+            <div id="sessions-list" class="sessions-list">
+                <!-- المحادثات السابقة ستظهر هنا -->
+            </div>
+        </aside>
+
+        <div class="chat-container">
+        <header class="chat-header">
+            <div class="header-info">
+                <button id="toggle-sidebar-btn" class="icon-btn" aria-label="تبديل القائمة">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="header-titles">
+                    <h1>مساعد معلم الفيزياء الذكي</h1>
+                    <span class="subtitle">(النسخة الأولى)</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="status-indicator">
+                    <span class="dot online"></span>
+                    <span>متصل وجاهز</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="task-configuration">
+            <p class="instruction-text">اختر المهمة التي تود إنجازها بناء على المنهج المعتمد</p>
+            
+            <div class="task-tabs">
+                <button class="task-tab" data-task="remedial">خطط علاجية وإثرائية</button>
+                <button class="task-tab" data-task="questions">توليد أسئلة</button>
+                <button class="task-tab active" data-task="lesson_plan">إعداد خطة درس</button>
+            </div>
+
+            <div class="control-panel">
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <label>مدة الحصة (بالدقائق):</label>
+                        <span id="duration-value">45</span>
+                    </div>
+                    <input type="range" id="duration-slider" min="15" max="90" value="45" step="5">
+                </div>
+                <button id="generate-btn" class="primary-btn">توليد خطة الدرس</button>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="message assistant">
+                <div class="message-bubble">
+                    مرحباً! أنا المساعد الذكي في الفيزياء. يمكنني الإجابة على استفساراتك بناءً على المستندات المرفقة وتلخيص القوانين. تفضل، كيف يمكنني مساعدتك اليوم؟
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <textarea id="user-input" placeholder="اكتب سؤالك هنا حول المستندات..." rows="1"></textarea>
+            <button id="send-btn" aria-label="إرسال رسالة">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Adjusted SVG for RTL (flipped horizontally) -->
+                    <path d="M2 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 5L22 12L15 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        </div>
+    </div>
+    
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}?v=5"></script>
+</body>
+</html>

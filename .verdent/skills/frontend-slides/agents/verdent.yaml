@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Frontend Slides'
+  short_description: 'Create animation-rich HTML presentations or convert PowerPoint files.'
+  icon_dark: './assets/icon-dark.png'
+  icon_light: './assets/icon-light.png'
+  default_prompt: 'Create a stunning HTML presentation or convert a PowerPoint file to web slides.'
