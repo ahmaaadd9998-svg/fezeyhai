@@ -69,9 +69,13 @@ if __name__ == '__main__':
     print("Initializing Gemini Service...")
     verify_gemini_files()
     
-    # Start the background watcher thread
-    watcher_thread = threading.Thread(target=run_watcher, daemon=True)
-    watcher_thread.start()
+    # Start the background watcher thread ONLY if not in cloud mode
+    if os.getenv("CLOUD_MODE") != "true":
+        print("Starting local file watcher...")
+        watcher_thread = threading.Thread(target=run_watcher, daemon=True)
+        watcher_thread.start()
+    else:
+        print("Cloud mode detected: Skipping file watcher.")
     
     # Run Flask
     app.run(debug=True, port=5000)
