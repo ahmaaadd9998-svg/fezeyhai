@@ -241,6 +241,15 @@ body {
     font-size: 0.9rem;
     color: #a0a0a0;
 }
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.add('closed');
+            if (appLayout) {
+                appLayout.classList.remove('sidebar-open');
+            }
+        });
+    }
 
 .dot {
     width: 8px;
@@ -647,9 +656,32 @@ button#send-btn:disabled {
     
     .sidebar.closed {
         transform: translateX(100%);
-        width: 85%; /* Keep width consistent for animation */
+        width: 85%;
         opacity: 0;
         pointer-events: none;
+        display: none !important; /* Force hide */
+    }
+
+    .sidebar-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .close-sidebar-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        font-size: 24px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
     }
 
     .chat-container {

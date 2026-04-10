@@ -235,10 +235,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Explicit Close Button (The definite fix)
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.add('closed');
+            const appLayout = document.querySelector('.app-layout');
+            if (appLayout) {
+                appLayout.classList.remove('sidebar-open');
+            }
+        });
+    }
+
     // Close sidebar when clicking backdrop (on mobile)
     const appLayout = document.querySelector('.app-layout');
     if (appLayout) {
         appLayout.addEventListener('click', (e) => {
+            // If we click the layout (backdrop) itself, close the sidebar
             if (window.innerWidth <= 768 && e.target === appLayout && !sidebar.classList.contains('closed')) {
                 sidebar.classList.add('closed');
                 appLayout.classList.remove('sidebar-open');
