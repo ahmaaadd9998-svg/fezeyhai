@@ -208,8 +208,8 @@ def upload_and_add_to_vector_store(file_path):
 def remove_file_from_vector_store(file_path):
     return _service.remove_from_file_map(file_path)
 
-def ask_question(question, history=None):
-    return _service.ask(question, history)
+def ask_question(question, history=None, mode='chat'):
+    return _service.ask(question, history, mode)
 
 def get_file_map():
     return _service.get_file_map()
