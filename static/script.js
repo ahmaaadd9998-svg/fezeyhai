@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function appendMessage(role, text) {
+    function appendMessage(role, text, isHistoryLoad = false) {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${role}`;
         
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         msgDiv.appendChild(bubble);
         chatMessages.appendChild(msgDiv);
-        scrollToBottom();
+        if (!isHistoryLoad) scrollToBottom();
     }
 
     function showLoading() {
@@ -248,12 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial disable of send btn
     sendBtn.disabled = true;
 
-    // New Chat / Clear logic
-    if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            startNewChat();
-        });
-    }
+    // New Chat / Clear logic is handled by newChatBtn below
 
     // Print Logic
     if (printBtn) {
@@ -481,23 +476,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Helper: modified appendMessage to skip formatting if from simple string in history
-    function appendMessage(role, text, isHistoryLoad = false) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${role}`;
-        
-        const bubble = document.createElement('div');
-        bubble.className = 'message-bubble';
-        
-        if (role === 'assistant') {
-            bubble.innerHTML = marked.parse(text);
-        } else {
-            bubble.textContent = text;
-        }
-        
-        msgDiv.appendChild(bubble);
-        chatMessages.appendChild(msgDiv);
-        if (!isHistoryLoad) scrollToBottom();
-    }
 
 });

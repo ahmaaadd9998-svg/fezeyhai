@@ -283,15 +283,6 @@ body {
     font-size: 0.9rem;
     color: #a0a0a0;
 }
-    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-    if (closeSidebarBtn) {
-        closeSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.add('closed');
-            if (appLayout) {
-                appLayout.classList.remove('sidebar-open');
-            }
-        });
-    }
 
 .dot {
     width: 8px;
@@ -325,7 +316,7 @@ body {
     border-color: rgba(0, 210, 255, 0.3);
 }
 
-.danger-btn:.header-titles h1 {
+.header-titles h1 {
     font-size: 1.5rem;
     margin: 0;
     color: var(--primary-color);
