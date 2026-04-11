@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
-    const clearBtn = document.getElementById('clear-btn');
     const printBtn = document.getElementById('print-btn');
+    const shareWhatsappBtn = document.getElementById('share-whatsapp-btn');
+    const shareEmailBtn = document.getElementById('share-email-btn');
     const newChatBtn = document.getElementById('new-chat-btn');
     const sessionsList = document.getElementById('sessions-list');
     const sidebar = document.getElementById('sidebar');
@@ -71,6 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 controlPanel.style.display = 'flex';
                 taskInstruction.textContent = 'اختر المهمة التي تود إنجازها بناء على المنهج المعتمد';
                 generateBtn.textContent = 'توليد خطة الدرس';
+            }
+            // Reset chat when switching tasks to ensure a clean start
+            if (chatHistory.length > 0) {
+                startNewChat();
             }
         });
     });
@@ -254,6 +259,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if (printBtn) {
         printBtn.addEventListener('click', () => {
             window.print();
+        });
+    }
+
+    // Share Logic
+    function getConversationText() {
+        let text = "المساعد الذكي في الفيزياء - محادثة محفظة\n\n";
+        chatHistory.forEach(msg => {
+            const role = msg.role === 'user' ? 'أنا' : 'المساعد';
+            text += `${role}: ${msg.content}\n\n`;
+        });
+        return text;
+    }
+
+    if (shareWhatsappBtn) {
+        shareWhatsappBtn.addEventListener('click', () => {
+            const text = getConversationText();
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        });
+    }
+
+    if (shareEmailBtn) {
+        shareEmailBtn.addEventListener('click', () => {
+            const text = getConversationText();
+            const subject = encodeURIComponent("مشاركة محادثة من مساعد الفيزياء الذكي");
+            const body = encodeURIComponent(text);
+            window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
         });
     }
 

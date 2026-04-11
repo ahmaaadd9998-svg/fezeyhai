@@ -229,6 +229,48 @@ body {
     color: #a0a0a0;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.share-group {
+    display: flex;
+    gap: 5px;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+    color: var(--primary-color);
+}
+
+.icon-btn.whatsapp:hover {
+    background: rgba(37, 211, 102, 0.2);
+    color: #25D366;
+    border-color: #25D366;
+}
+
+.icon-btn.email:hover {
+    background: rgba(0, 210, 255, 0.15);
+    color: #00d2ff;
+    border-color: #00d2ff;
+}
+
 .header-actions {
     display: flex;
     align-items: center;
