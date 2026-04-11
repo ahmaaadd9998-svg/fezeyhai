@@ -5,6 +5,8 @@ from watcher import start_watching
 from openai_service import ask_question, upload_and_add_to_vector_store, verify_gemini_files
 from werkzeug.utils import secure_filename
 
+from flask import Flask, render_template, request, jsonify, session, send_from_directory
+
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "physics_secret_123")
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'company_docs')
@@ -13,6 +15,14 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_from_directory('static', 'manifest.json')
+
+@app.route('/sw.js')
+def serve_sw():
+    return send_from_directory('static', 'sw.js')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

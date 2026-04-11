@@ -1,0 +1,22 @@
+{
+    "name": "المساعد الذكي في الفيزياء",
+    "short_name": "مساعد الفيزياء",
+    "description": "مساعد ذكي يعتمد على الذكاء الاصطناعي لدعم معلمي الفيزياء في التحضير والدردشة وتوليد الأسئلة.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#1a1a2e",
+    "theme_color": "#00d2ff",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/static/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/static/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
